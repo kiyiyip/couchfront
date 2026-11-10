@@ -90,7 +90,7 @@
             <ul>
               <li><strong>Artwork.</strong> No capsule, hero, logo, or icon is fetched. In Big Picture your imported game shows as a plain tile with a tiny icon, which looks wrong on a TV. All four images have to be added by hand, in the desktop client, with the correct AppID-style filenames.</li>
               <li><strong>Store metadata.</strong> No description, screenshots, release date, reviews, DLC list, or news feed. The game's page in your library is essentially empty.</li>
-              <li><strong>Cloud saves.</strong> Steam Cloud covers Steam games. Your Epic or GOG save lives where that store puts it, and Steam neither backs it up nor restores it.</li>
+              <li><strong>Cloud saves.</strong> Steam Cloud covers Steam games. Your Epic or GOG save lives where that store puts it, and Steam neither backs it up nor restores it. Couchfront can mirror that folder to your own Google Drive and restore it, but that is not Steam Cloud: there is no automatic per-account Steam integration.</li>
               <li><strong>Achievements and progress tracking.</strong> None. Playtime is the one thing Steam does count, and only while the game is launched through the shortcut.</li>
               <li><strong>Updates and patches.</strong> Steam won't patch a game it didn't install. If the store's client isn't running, the game may launch at an old version.</li>
               <li><strong>Install management.</strong> No uninstall, no verify files, no move-to-another-drive, no download queue. That all stays in the store's own client.</li>
@@ -115,6 +115,7 @@
                   <tr><th scope="row">Picking the right .exe</th><td>Dig through bin folders, guess between launcher and game</td><td class="col-highlight">Largest-executable and folder-name heuristics, filtering installers, redistributables and crash handlers</td></tr>
                   <tr><th scope="row">Messy repack names</th><td>Rename each shortcut by hand</td><td class="col-highlight">Cleans tags like <em>[FitGirl Repack] v2.1</em> down to the game title</td></tr>
                   <tr><th scope="row">Artwork</th><td>Download four images per game and rename them to the AppID</td><td class="col-highlight">Computes Steam-compatible AppIDs and fetches grid, hero, logo and icon from SteamGridDB</td></tr>
+                  <tr><th scope="row">Cloud saves</th><td>Copy the save folder to a stick or another drive</td><td class="col-highlight">Optional Google Drive sync per game, with the save folder auto-detected from Ludusavi and local snapshots kept for restore</td></tr>
                   <tr><th scope="row">Dead shortcuts</th><td>Find and delete each stale tile and its art</td><td class="col-highlight">Prunes shortcuts whose game folder no longer exists</td></tr>
                   <tr><th scope="row">Keeping the list current</th><td>Remember to re-add new purchases</td><td class="col-highlight">Sync on demand from the app, the tray menu, or at startup</td></tr>
                   <tr><th scope="row">Controller from the sofa</th><td>Mouse on the coffee table</td><td class="col-highlight">Gamepad navigation, optional mouse mode, and virtual-controller override via ViGEmBus and HidHide</td></tr>
@@ -125,15 +126,15 @@
             <h2 id="limits">What still stays Steam's job</h2>
             <p>This is worth stating plainly, because a launcher page that pretends otherwise is lying to you:</p>
             <ul>
-              <li><strong>Purchases, downloads and installs</strong> stay in the store that owns the game. Nothing here buys or installs a game yet.</li>
-              <li><strong>Cloud saves and achievements</strong> still don't exist for imported titles. No tool can invent them.</li>
+              <li><strong>Purchases</strong> stay in the store that owns the game. Couchfront can download and install from sources you configure, but it is not a storefront.</li>
+              <li><strong>Achievements</strong> still don't exist for imported titles. <strong>Cloud saves</strong> are yours to mirror: point Couchfront at the save folder (auto-detected from Ludusavi) and it syncs it to your own Google Drive.</li>
               <li><strong>Updates</strong> still come from the store's updater. Keeping that client installed and occasionally signed in remains necessary.</li>
               <li><strong>Steam Input profiles</strong> are still yours to configure per game. The app can hand Steam a correct shortcut, not a better controller layout.</li>
               <li><strong>Occasional per-game fixes</strong> still need a human: a weird start directory, an extra launch argument, or a game that insists on its own launcher splash. The heuristics are good, not psychic.</li>
             </ul>
             <div class="callout">
               <span class="callout-label">The short version</span>
-              <p>Steam will never manage a game it did not sell you. Couchfront can keep the shortcut and artwork accurate so the game still looks right in your library. It cannot add cloud saves, achievements, or updates.</p>
+              <p>Steam will never manage a game it did not sell you. Couchfront can keep the shortcut and artwork accurate so the game still looks right in your library, and it can mirror the save folder to your own Google Drive. It cannot add Steam Cloud, achievements, or updates.</p>
             </div>
 
             <h2 id="faq">Common questions</h2>
@@ -144,7 +145,7 @@
               </details>
               <details>
                 <summary>Does Steam track playtime for non-Steam games?</summary>
-                <p>Yes. While the game is launched through the shortcut, Steam counts the session just like a native game. That's the one library feature that does carry over. Achievements, cloud saves, and store data do not.</p>
+                <p>Yes. While the game is launched through the shortcut, Steam counts the session just like a native game. That's the one library feature that does carry over. Achievements and store data do not; Couchfront can sync the save folder to your own Google Drive.</p>
               </details>
               <details>
                 <summary>Can Steam update or uninstall an imported game?</summary>

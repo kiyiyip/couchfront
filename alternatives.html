@@ -28,7 +28,7 @@
             "name": "Is this a Playnite replacement?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Yes. It is a direct alternative to Playnite. It does less today, but it has built-in speed controls, a process killer, a store deals browser, sleep/resume handling, focus guarding, universal controller support, and optional Steam sync. If you need custom plugins, deep metadata, or emulator management, Playnite does more."
+              "text": "Yes. It is a direct alternative to Playnite. It does less today, but it has built-in speed controls, a process killer, a store deals browser, a download queue for sources you add, Google Drive save sync, sleep/resume handling, focus guarding, universal controller support, and optional Steam sync. If you need custom plugins, deep metadata, or emulator management, Playnite does more."
             }
           },
           {
@@ -96,7 +96,9 @@
                 <tr><th scope="row">Speed controls</th><td class="col-highlight">Yes</td><td class="no">No</td><td class="no">No</td></tr>
                 <tr><th scope="row">Process killer</th><td class="col-highlight">Yes</td><td class="no">No</td><td class="no">No</td></tr>
                 <tr><th scope="row">Sleep, resume and idle handling</th><td class="col-highlight">Yes</td><td class="no">No</td><td class="no">No</td></tr>
-                <tr><th scope="row">Store purchases and downloads</th><td class="col-highlight no">No</td><td>No storefront of its own</td><td>Steam store only</td></tr>
+                <tr><th scope="row">Cloud saves for imported games</th><td class="col-highlight">Yes, to your own Google Drive</td><td class="no">No</td><td>Steam games only</td></tr>
+                <tr><th scope="row">Download and install from the couch</th><td class="col-highlight">Yes, from JSON sources, debrid or direct links</td><td class="no">No</td><td>Steam store only</td></tr>
+                <tr><th scope="row">Store purchases</th><td class="col-highlight no">No built-in store</td><td>No storefront of its own</td><td>Steam store only</td></tr>
                 <tr><th scope="row">Platforms</th><td class="col-highlight">Windows</td><td>Windows</td><td>Windows, macOS, Linux, Deck</td></tr>
                 <tr><th scope="row">Setup effort</th><td class="col-highlight">Low</td><td>Medium to high</td><td>Extremely tedious for non-Steam games</td></tr>
               </tbody>
@@ -112,7 +114,9 @@
               <li><strong>Built-in speed controls.</strong> Fast-forward and slow motion for single-player games, without touching game files.</li>
               <li><strong>Process Killer.</strong> Ends a stuck game's process tree without opening Task Manager.</li>
               <li><strong>Sleep, resume and idle handling.</strong> Sleeps the PC after idle time and comes back fullscreen where it left off, whatever woke it, and can put idle Bluetooth pads to sleep.</li>
-              <li><strong>Deals and scores.</strong> A Deals tab searches every store it tracks with store, price and rating filters, and Steam games in the library show their review percentage and Metacritic score on the card.</li>
+              <li><strong>Deals and scores.</strong> A Deals tab searches every store it tracks with store, price and rating filters, and each deal carries its review percentage and Metacritic score.</li>
+              <li><strong>Downloads from your own sources.</strong> A Downloads tab combines any JSON source manifests you add, resolves through Real-Debrid, AllDebrid or Premiumize (or a direct link), and installs repacks silently into a custom folder that feeds the library.</li>
+              <li><strong>Cloud saves on your own Drive.</strong> Sign in with Google and a game's save folder is mirrored to your Drive before launch and after you quit, with the folder auto-detected from Ludusavi and local snapshots kept for restore.</li>
               <li><strong>Optional Steam Big Picture sync.</strong> Adds games to Steam as shortcuts with artwork. The launcher works without it.</li>
               <li><strong>Global controller override.</strong> Mirrors most non-Xbox pads into virtual Xbox 360 controllers system-wide.</li>
               <li><strong>Mouse mode.</strong> Hold Select + B for one second and the pad becomes a mouse: left stick moves the cursor, right stick scrolls, A and B click, and Start + Select opens Task View. It works on the whole desktop, not just inside the launcher, so you can fix a game or install something without reaching for a mouse.</li>
@@ -123,7 +127,7 @@
               <li><strong>No emulator platform library.</strong> Playnite supports emulators through plugins; Couchfront does not.</li>
               <li><strong>No custom plugins.</strong> Playnite has a plugin ecosystem. Couchfront ships with built-in themes instead.</li>
               <li><strong>Less metadata.</strong> Artwork comes from SteamGridDB, but there is no rich metadata library for descriptions, reviews, or playtime across stores.</li>
-              <li><strong>No store purchases or downloads yet.</strong> This may come later if enough people want it.</li>
+              <li><strong>No storefront.</strong> There is nowhere to buy a game. Downloads comes from catalogues and links you configure yourself.</li>
               <li><strong>Windows only.</strong> No macOS, Linux, Steam Deck, or Android.</li>
             </ul>
             <p>Some of these may get support later if enough people care. For now, I am starting with the features I like.</p>
@@ -137,7 +141,7 @@
 
             <h2 id="steam">Steam Big Picture</h2>
             <p>Steam Big Picture works well if your library is mostly on Steam. It already handles Steam games and their artwork, updates, achievements, and cloud saves.</p>
-            <p>For imported games, Big Picture only gets a shortcut and whatever artwork you add. Couchfront can keep those shortcuts and artwork accurate, but it cannot add Steam cloud saves, achievements, or updates to a game Steam did not sell you.</p>
+            <p>For imported games, Big Picture only gets a shortcut and whatever artwork you add. Couchfront can keep those shortcuts and artwork accurate, but it cannot add Steam Cloud, achievements, or updates to a game Steam did not sell you. It can, however, mirror an imported game's save folder to your own Google Drive and keep local snapshots to restore.</p>
 
             <h2 id="others">Other options</h2>
             <dl>
@@ -155,7 +159,7 @@
             <div class="faq">
               <details>
                 <summary>Is this a Playnite replacement?</summary>
-                <p>Yes. It is a direct alternative to Playnite. It does less today, but it has built-in speed controls, a process killer, a store deals browser, sleep/resume handling, focus guarding, universal controller support, and optional Steam sync. If you need custom plugins, deep metadata, or emulator management, Playnite does more.</p>
+                <p>Yes. It is a direct alternative to Playnite. It does less today, but it has built-in speed controls, a process killer, a store deals browser, a download queue for sources you add, Google Drive save sync, sleep/resume handling, focus guarding, universal controller support, and optional Steam sync. If you need custom plugins, deep metadata, or emulator management, Playnite does more.</p>
               </details>
               <details>
                 <summary>Do I still need the other launchers installed?</summary>

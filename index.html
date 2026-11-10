@@ -22,7 +22,7 @@
   <body>
     <header class="shell">
       <a class="brand" href="#top"><img src="./favicon.png" alt="" />COUCHFRONT</a>
-      <nav class="nav" aria-label="Main navigation"><a class="nav-secondary" href="#features">What it does</a><a href="why-one-launcher.html">Why this exists</a><a href="steam-big-picture.html">Steam shortcuts</a><a href="alternatives.html">Alternatives</a><a class="nav-cta" href="#download">Download</a></nav>
+      <nav class="nav" aria-label="Main navigation"><a class="nav-secondary" href="#features">What it does</a><a href="why-one-launcher.html">Why this exists</a><a href="steam-big-picture.html">Steam shortcuts</a><a href="alternatives.html">Alternatives</a><a href="#plugins">Plugins</a><a class="nav-cta" href="#download">Download</a></nav>
     </header>
     <main id="top">
       <div class="shell hero">
@@ -48,13 +48,51 @@
             <article class="feature"><div class="feature-icon" aria-hidden="true">⌘</div><h3>Any controller, Xbox everywhere</h3><p>DualShock, DualSense, Switch Pro and generic HID pads are mirrored into virtual Xbox 360 controllers across Windows and Steam. Browse, launch, skip the store client, and use mouse mode without a keyboard.</p></article>
             <article class="feature"><div class="feature-icon" aria-hidden="true">↗</div><h3>Sync into Steam</h3><p>Add your games to Steam as shortcuts with optional artwork, so they also show up in Big Picture. The launcher works without it.</p></article>
             <article class="feature"><div class="feature-icon" aria-hidden="true">▣</div><h3>Keep your library tidy</h3><p>Scan custom folders, choose the right game executable, and clean up shortcuts to games that are gone.</p></article>
+            <article class="feature"><div class="feature-icon" aria-hidden="true">⇩</div><h3>Download from your own sources</h3><p>Add a JSON manifest for any catalogue you use, optionally route it through Real-Debrid, AllDebrid or Premiumize, and let the queue download, unpack and install repacks without leaving the couch.</p></article>
+            <article class="feature"><div class="feature-icon" aria-hidden="true">☁</div><h3>Cloud saves on your own Drive</h3><p>Sign in with Google and a game's save folder is synced before launch and after you quit, auto-detected from the Ludusavi manifest. Local snapshots can be restored from the Save Manager.</p></article>
             <article class="feature"><div class="feature-icon" aria-hidden="true">◷</div><h3>Stay close at hand</h3><p>Use the Windows system tray, launch on startup, and quickly return to the launcher between games. Store launchers can quit themselves when nothing is running.</p></article>
             <article class="feature"><div class="feature-icon" aria-hidden="true">✳</div><h3>Make it yours</h3><p>Choose a theme and accent, tune your controller setup, optionally fetch library artwork from SteamGridDB, and pick an animated backdrop for the library (fireplace, emberfall, wave and more).</p></article>
             <article class="feature"><div class="feature-icon" aria-hidden="true">⏻</div><h3>Sleep and resume like a console</h3><p>Let the PC sleep after idle time from the launcher, and it wakes straight back into the couch view where you left it — whatever device woke it. Idle Bluetooth pads switch themselves off, so they are not flat when you pick one up.</p></article>
             <article class="feature"><div class="feature-icon" aria-hidden="true">⌨</div><h3>No keyboard required</h3><p>Hold Start for the quick menu and Select + Y for an on-screen keyboard. Button chords cover Home, mouse mode and speed control, a DualShock 4 touchpad works as a trackpad, and a physical keyboard still types into the on-screen one.</p></article>
-            <article class="feature"><div class="feature-icon" aria-hidden="true">▤</div><h3>See what's on sale</h3><p>A Deals tab lists live discounts across every store it tracks, with search, store, price and rating filters. Library cards carry Steam review percentages and Metacritic scores, so you can compare before you buy.</p></article>
+            <article class="feature"><div class="feature-icon" aria-hidden="true">▤</div><h3>See what's on sale</h3><p>A Deals tab lists live discounts across every store it tracks, with search, store, price and rating filters.</p></article>
             <article class="feature"><div class="feature-icon" aria-hidden="true">⏹</div><h3>Kill a stuck game</h3><p>The Process Killer lists running games by GPU use and ends a hung game's whole process tree, without opening Task Manager or losing the couch session.</p></article>
           </div>
+        </div>
+      </section>
+      <section id="plugins">
+        <div class="shell">
+          <div class="section-heading"><div class="eyebrow">Bring your own catalogue</div><h2>Add a download source with one JSON file.</h2><p>Drop a manifest into the downloads plugin folder, then re-enter the Downloads tab. This example is fake: replace the URL and response paths with your own.</p></div>
+          <pre class="config-example"><code>{
+  "id": "example-source",
+  "name": "Example Source (fake)",
+  "kind": "source",
+  "request": {
+    "method": "GET",
+    "url": "https://example.com/api/games?q={query}"
+  },
+  "response": {
+    "items": "results",
+    "title": "name",
+    "link": "download_url",
+    "size_bytes": "bytes"
+  }
+}</code></pre>
+          <p class="config-caption">That URL should answer with JSON like this (dummy links):</p>
+          <pre class="config-example"><code>{
+  "results": [
+    {
+      "name": "Fake Game One",
+      "download_url": "https://example.com/files/fake-game-one.zip",
+      "bytes": 1572864000
+    },
+    {
+      "name": "Fake Game Two",
+      "download_url": "https://example.com/files/fake-game-two.7z",
+      "bytes": 3145728000
+    }
+  ]
+}</code></pre>
+          <p class="config-caption">Repacks install automatically by default; turn that off with <code>auto_install_downloads</code> in <code>config.json</code>, and <code>remove_after_install_downloads</code> deletes the archives and extracted folders once the game is installed. When Google Drive cloud sync is on, the same manifests are mirrored there so a second PC gets your sources too.</p>
         </div>
       </section>
       <section id="speedhack">
@@ -83,51 +121,72 @@
               <button class="tour-tab" id="tour-tab-library" role="tab" aria-selected="true" aria-controls="tour-panel-library">Library</button>
               <button class="tour-tab" id="tour-tab-import" role="tab" aria-selected="false" aria-controls="tour-panel-import" tabindex="-1">Import</button>
               <button class="tour-tab" id="tour-tab-settings" role="tab" aria-selected="false" aria-controls="tour-panel-settings" tabindex="-1">Controller &amp; settings</button>
+              <button class="tour-tab" id="tour-tab-downloads" role="tab" aria-selected="false" aria-controls="tour-panel-downloads" tabindex="-1">Downloads</button>
+              <button class="tour-tab" id="tour-tab-cloudsaves" role="tab" aria-selected="false" aria-controls="tour-panel-cloudsaves" tabindex="-1">Cloud saves</button>
               <button class="tour-tab" id="tour-tab-deals" role="tab" aria-selected="false" aria-controls="tour-panel-deals" tabindex="-1">Deals</button>
               <button class="tour-tab" id="tour-tab-logs" role="tab" aria-selected="false" aria-controls="tour-panel-logs" tabindex="-1">Logs</button>
             </div>
             <div class="tour-panels">
               <figure class="tour-panel" id="tour-panel-library" role="tabpanel" aria-labelledby="tour-tab-library">
                 <div class="tour-shot">
-                  <img src="./screenshots/library.webp" width="1600" height="900" alt="The launcher's library tab: a wall of game artwork with store filters down the left, sorted by last played, each Steam game showing its review and Metacritic scores." loading="lazy" />
-                  <button class="hotspot tip-right" style="--x:15.6%;--y:5.1%" aria-describedby="tip-lib-nav" aria-expanded="false"><span class="hotspot-dot">1</span><span class="tip" id="tip-lib-nav" role="tooltip"><strong>One launcher, five tabs</strong>Library, Import, Settings, Logs and Process Killer. Everything the app does is one press away.</span></button>
-                  <button class="hotspot tip-right" style="--x:5.3%;--y:9%" aria-describedby="tip-lib-search" aria-expanded="false"><span class="hotspot-dot">2</span><span class="tip" id="tip-lib-search" role="tooltip"><strong>Search everything at once</strong>Type a few letters and it filters across every store together, so you never have to remember which client a game came from.</span></button>
-                  <button class="hotspot tip-right" style="--x:5%;--y:22.2%" aria-describedby="tip-lib-filters" aria-expanded="false"><span class="hotspot-dot">3</span><span class="tip" id="tip-lib-filters" role="tooltip"><strong>Filter by source</strong>Steam, Epic, GOG, Xbox, Ubisoft, Amazon, Battle.net and your own DRM-free folders, with live counts.</span></button>
-                  <button class="hotspot tip-right" style="--x:3.9%;--y:53.3%" aria-describedby="tip-lib-sort" aria-expanded="false"><span class="hotspot-dot">4</span><span class="tip" id="tip-lib-sort" role="tooltip"><strong>Sort the way you play</strong>Alphabetical, last played, date added, or install size. The grid reorders instantly.</span></button>
-                  <button class="hotspot" style="--x:43.8%;--y:33.3%" aria-describedby="tip-lib-grid" aria-expanded="false"><span class="hotspot-dot">5</span><span class="tip" id="tip-lib-grid" role="tooltip"><strong>Steam-style poster wall</strong>Every game gets a 2:3 capsule from SteamGridDB, so the library looks like Big Picture instead of a file list. Steam games show their review percentage and Metacritic score on the card.</span></button>
-                  <button class="hotspot tip-left" style="--x:93.6%;--y:9%" aria-describedby="tip-lib-art" aria-expanded="false"><span class="hotspot-dot">6</span><span class="tip" id="tip-lib-art" role="tooltip"><strong>Artwork on demand</strong>Preload Art fetches capsules for the whole library; Rescan re-checks which games are still installed.</span></button>
+                  <img src="./screenshots/library.webp" width="1600" height="900" alt="The launcher's library tab: a wall of game artwork with store filters down the left, sorted by last played, and each card showing its platform and install size." loading="lazy" />
+                  <button class="hotspot tip-right" style="--x:15.6%;--y:7.7%" aria-describedby="tip-lib-nav" aria-expanded="false"><span class="hotspot-dot">1</span><span class="tip" id="tip-lib-nav" role="tooltip"><strong>One launcher, seven tabs</strong>Library, Import, Settings, Logs, Deals, Downloads and Process Killer. Everything the app does is one press away.</span></button>
+                  <button class="hotspot tip-right" style="--x:8%;--y:13.7%" aria-describedby="tip-lib-search" aria-expanded="false"><span class="hotspot-dot">2</span><span class="tip" id="tip-lib-search" role="tooltip"><strong>Search everything at once</strong>Type a few letters and it filters across every store together, so you never have to remember which client a game came from.</span></button>
+                  <button class="hotspot tip-right" style="--x:6%;--y:18.4%" aria-describedby="tip-lib-filters" aria-expanded="false"><span class="hotspot-dot">3</span><span class="tip" id="tip-lib-filters" role="tooltip"><strong>Filter by source</strong>Steam, Epic, GOG, Xbox, Ubisoft, Amazon, Battle.net and your own DRM-free folders, with live counts.</span></button>
+                  <button class="hotspot tip-right" style="--x:6%;--y:58.9%" aria-describedby="tip-lib-sort" aria-expanded="false"><span class="hotspot-dot">4</span><span class="tip" id="tip-lib-sort" role="tooltip"><strong>Sort the way you play</strong>Alphabetical, last played, date added, or install size. The grid reorders instantly.</span></button>
+                  <button class="hotspot" style="--x:42%;--y:40%" aria-describedby="tip-lib-grid" aria-expanded="false"><span class="hotspot-dot">5</span><span class="tip" id="tip-lib-grid" role="tooltip"><strong>Steam-style poster wall</strong>Every game gets a 2:3 capsule from SteamGridDB, so the library looks like Big Picture instead of a file list.</span></button>
+                  <button class="hotspot tip-left" style="--x:89%;--y:13.4%" aria-describedby="tip-lib-art" aria-expanded="false"><span class="hotspot-dot">6</span><span class="tip" id="tip-lib-art" role="tooltip"><strong>Artwork on demand</strong>Preload Art fetches capsules for the whole library; Rescan re-checks which games are still installed.</span></button>
                 </div>
                 <figcaption>Library tab. Twelve games across Steam, Epic, GOG, Xbox and custom folders, in one poster grid.</figcaption>
               </figure>
               <figure class="tour-panel" id="tour-panel-import" role="tabpanel" aria-labelledby="tour-tab-import" hidden>
                 <div class="tour-shot">
                   <img src="./screenshots/import.webp" width="1600" height="900" alt="The import tab: store platform toggles with detected game counts, and a list of custom game folders with executable heuristics." loading="lazy" />
-                  <button class="hotspot tip-right" style="--x:13.1%;--y:17.8%" aria-describedby="tip-imp-stores" aria-expanded="false"><span class="hotspot-dot">1</span><span class="tip" id="tip-imp-stores" role="tooltip"><strong>Nine store scanners</strong>Steam, Epic, GOG, Ubisoft, Amazon, Xbox, Battle.net and more. Each has its own toggle and shows how many games it found.</span></button>
-                  <button class="hotspot" style="--x:39.6%;--y:44.8%" aria-describedby="tip-imp-add" aria-expanded="false"><span class="hotspot-dot">2</span><span class="tip" id="tip-imp-add" role="tooltip"><strong>Point it at a folder</strong>Add any drive or directory: repacks, DRM-free installs, emulator collections. It scans for games.</span></button>
-                  <button class="hotspot tip-right" style="--x:21.4%;--y:51.4%" aria-describedby="tip-imp-folder" aria-expanded="false"><span class="hotspot-dot">3</span><span class="tip" id="tip-imp-folder" role="tooltip"><strong>Folder nicknames</strong>Give a folder a name and a source tag, so <code>D:\Games</code> shows up as DRM Free in the library alongside your store games.</span></button>
-                  <button class="hotspot tip-right" style="--x:10.7%;--y:53%" aria-describedby="tip-imp-heuristic" aria-expanded="false"><span class="hotspot-dot">4</span><span class="tip" id="tip-imp-heuristic" role="tooltip"><strong>Finds the real game .exe</strong>The largest-executable heuristic ignores installers, redistributables and crash handlers, so the shortcut launches the game, not a setup wizard.</span></button>
+                  <button class="hotspot tip-right" style="--x:20%;--y:15.5%" aria-describedby="tip-imp-stores" aria-expanded="false"><span class="hotspot-dot">1</span><span class="tip" id="tip-imp-stores" role="tooltip"><strong>Nine store scanners</strong>Steam, Epic, GOG, Ubisoft, Amazon, Xbox, Battle.net and more. Each has its own toggle and shows how many games it found.</span></button>
+                  <button class="hotspot" style="--x:55%;--y:65.4%" aria-describedby="tip-imp-add" aria-expanded="false"><span class="hotspot-dot">2</span><span class="tip" id="tip-imp-add" role="tooltip"><strong>Point it at a folder</strong>Add any drive or directory: repacks, DRM-free installs, emulator collections. It scans for games.</span></button>
+                  <button class="hotspot tip-right" style="--x:30%;--y:74.6%" aria-describedby="tip-imp-folder" aria-expanded="false"><span class="hotspot-dot">3</span><span class="tip" id="tip-imp-folder" role="tooltip"><strong>Folder nicknames</strong>Give a folder a name and a source tag, so <code>D:\Games</code> shows up as DRM Free in the library alongside your store games.</span></button>
+                  <button class="hotspot tip-right" style="--x:12%;--y:78.2%" aria-describedby="tip-imp-heuristic" aria-expanded="false"><span class="hotspot-dot">4</span><span class="tip" id="tip-imp-heuristic" role="tooltip"><strong>Finds the real game .exe</strong>The largest-executable heuristic ignores installers, redistributables and crash handlers, so the shortcut launches the game, not a setup wizard.</span></button>
                 </div>
                 <figcaption>Import tab. Stores and folders, with per-source detection counts you can toggle individually.</figcaption>
               </figure>
               <figure class="tour-panel" id="tour-panel-settings" role="tabpanel" aria-labelledby="tour-tab-settings" hidden>
                 <div class="tour-shot">
-                  <img src="./screenshots/settings.webp" width="1600" height="900" alt="Controller settings: toggles for guide-button focus, exclusive fullscreen, Xbox 360 controller emulation, HidHide, mouse mode, and Windows startup." loading="lazy" />
-                  <button class="hotspot" style="--x:43.8%;--y:29.4%" aria-describedby="tip-set-home" aria-expanded="false"><span class="hotspot-dot">1</span><span class="tip" id="tip-set-home" role="tooltip"><strong>Home button brings it forward</strong>Press Guide, PS or Switch Home, or Start+A together, and the launcher jumps in front of whatever is running.</span></button>
-                  <button class="hotspot" style="--x:43.8%;--y:34.8%" aria-describedby="tip-set-fullscreen" aria-expanded="false"><span class="hotspot-dot">2</span><span class="tip" id="tip-set-fullscreen" role="tooltip"><strong>Exclusive fullscreen</strong>With a controller connected, keeps the launcher pinned above Steam Big Picture and store clients, so nothing covers it until you launch a game.</span></button>
-                  <button class="hotspot" style="--x:43.8%;--y:40.2%" aria-describedby="tip-set-pads" aria-expanded="false"><span class="hotspot-dot">3</span><span class="tip" id="tip-set-pads" role="tooltip"><strong>Any pad becomes an Xbox 360 pad</strong>DualShock, DualSense, Switch Pro and generic HID controllers are mirrored into virtual Xbox 360 pads system-wide, so Windows, Steam and games all see a controller they already understand.</span></button>
-                  <button class="hotspot tip-left" style="--x:75%;--y:47%" aria-describedby="tip-set-hidhide" aria-expanded="false"><span class="hotspot-dot">4</span><span class="tip" id="tip-set-hidhide" role="tooltip"><strong>Double controllers, solved</strong>HidHide hides the physical pad while the virtual one is active. Install it from here and the status line tells you whether it's detected.</span></button>
-                  <button class="hotspot" style="--x:56.4%;--y:73.1%" aria-describedby="tip-set-mouse" aria-expanded="false"><span class="hotspot-dot">5</span><span class="tip" id="tip-set-mouse" role="tooltip"><strong>Mouse mode</strong>Left stick moves the cursor, right stick scrolls, A and B click. Select+B toggles it from the pad, so a mouse-only launcher never blocks you.</span></button>
+                  <img src="./screenshots/settings.webp" width="1600" height="900" alt="Controller settings: toggles for guide-button focus, exclusive fullscreen, Xbox 360 controller emulation, HidHide detection, and idle controller shutdown." loading="lazy" />
+                  <button class="hotspot" style="--x:40%;--y:42.6%" aria-describedby="tip-set-home" aria-expanded="false"><span class="hotspot-dot">1</span><span class="tip" id="tip-set-home" role="tooltip"><strong>Home button brings it forward</strong>Press Guide, PS or Switch Home, or Start+A together, and the launcher jumps in front of whatever is running.</span></button>
+                  <button class="hotspot" style="--x:40%;--y:49.7%" aria-describedby="tip-set-fullscreen" aria-expanded="false"><span class="hotspot-dot">2</span><span class="tip" id="tip-set-fullscreen" role="tooltip"><strong>Exclusive fullscreen</strong>With a controller connected, keeps the launcher pinned above Steam Big Picture and store clients, so nothing covers it until you launch a game.</span></button>
+                  <button class="hotspot" style="--x:40%;--y:58.7%" aria-describedby="tip-set-pads" aria-expanded="false"><span class="hotspot-dot">3</span><span class="tip" id="tip-set-pads" role="tooltip"><strong>Any pad becomes an Xbox 360 pad</strong>DualShock, DualSense, Switch Pro and generic HID controllers are mirrored into virtual Xbox 360 pads system-wide, so Windows, Steam and games all see a controller they already understand.</span></button>
+                  <button class="hotspot tip-left" style="--x:82%;--y:68.7%" aria-describedby="tip-set-hidhide" aria-expanded="false"><span class="hotspot-dot">4</span><span class="tip" id="tip-set-hidhide" role="tooltip"><strong>Double controllers, solved</strong>HidHide hides the physical pad while the virtual one is active. Install it from here and the status line tells you whether it's detected.</span></button>
                 </div>
-                <figcaption>Controller settings. Emulation, the driver, idle behaviour, and mouse mode for the parts of Windows that still need a cursor.</figcaption>
+                <figcaption>Controller settings. Emulation, the driver, idle shutdown, and the switches that keep the launcher in front.</figcaption>
+              </figure>
+              <figure class="tour-panel" id="tour-panel-downloads" role="tabpanel" aria-labelledby="tour-tab-downloads" hidden>
+                <div class="tour-shot">
+                  <img src="./screenshots/downloads.webp" width="1600" height="900" alt="The downloads tab: a Configure button and Downloads folder button, source and title filters, a queue where INDUSTRIA is downloading, and a grid of source results with cover art and Download buttons." loading="lazy" />
+                  <button class="hotspot tip-left" style="--x:68%;--y:14.7%" aria-describedby="tip-dl-config" aria-expanded="false"><span class="hotspot-dot">1</span><span class="tip" id="tip-dl-config" role="tooltip"><strong>Setup stays out of the way</strong>Configure reveals the debrid provider and key, direct-link row, download and install folders, and the auto-install and cleanup toggles.</span></button>
+                  <button class="hotspot tip-right" style="--x:23%;--y:23%" aria-describedby="tip-dl-filter" aria-expanded="false"><span class="hotspot-dot">2</span><span class="tip" id="tip-dl-filter" role="tooltip"><strong>One combined catalogue</strong>Every source plugin answers at once. Filter that whole list by source or type a title, and the next rows load as you scroll.</span></button>
+                  <button class="hotspot" style="--x:40%;--y:32.4%" aria-describedby="tip-dl-queue" aria-expanded="false"><span class="hotspot-dot">3</span><span class="tip" id="tip-dl-queue" role="tooltip"><strong>Queue that keeps up</strong>Progress, cancel, per-row Clear and Delete files. Repacks unpack and install silently, then register as a custom folder so the game shows up in the library.</span></button>
+                  <button class="hotspot" style="--x:27%;--y:70%" aria-describedby="tip-dl-results" aria-expanded="false"><span class="hotspot-dot">4</span><span class="tip" id="tip-dl-results" role="tooltip"><strong>Any source you can describe</strong>A manifest is one HTTP request plus JSON paths. Resolve the link through Real-Debrid, AllDebrid or Premiumize, or download a direct link as-is.</span></button>
+                </div>
+                <figcaption>Downloads tab. A combined catalogue, a live queue, and silent installs that feed the library.</figcaption>
+              </figure>
+              <figure class="tour-panel" id="tour-panel-cloudsaves" role="tabpanel" aria-labelledby="tour-tab-cloudsaves" hidden>
+                <div class="tour-shot">
+                  <img src="./screenshots/cloudsaves.webp" width="1600" height="900" alt="Cloud saves settings: a Sign in with Google button, Manage saves button, Ludusavi auto-detection note, manifest refresh interval, and a Refresh now button." loading="lazy" />
+                  <button class="hotspot" style="--x:49%;--y:40.7%" aria-describedby="tip-cloud-signin" aria-expanded="false"><span class="hotspot-dot">1</span><span class="tip" id="tip-cloud-signin" role="tooltip"><strong>Your Drive, not a subscription</strong>Sign in with Google once. Each game's saves go to a Couchfront folder in your own Drive and come back down before launch.</span></button>
+                  <button class="hotspot" style="--x:49%;--y:48.9%" aria-describedby="tip-cloud-manage" aria-expanded="false"><span class="hotspot-dot">2</span><span class="tip" id="tip-cloud-manage" role="tooltip"><strong>Undo a bad sync</strong>Manage saves lists local snapshots and Drive copies by age and size, and restores either one after backing up the current saves first.</span></button>
+                  <button class="hotspot tip-right" style="--x:25%;--y:54.6%" aria-describedby="tip-cloud-ludusavi" aria-expanded="false"><span class="hotspot-dot">3</span><span class="tip" id="tip-cloud-ludusavi" role="tooltip"><strong>Save folders found for you</strong>A cached Ludusavi manifest maps thousands of games to their save folders, so most titles need no setup at all. A custom folder on a game still wins.</span></button>
+                  <button class="hotspot tip-left" style="--x:83%;--y:58.2%" aria-describedby="tip-cloud-refresh" aria-expanded="false"><span class="hotspot-dot">4</span><span class="tip" id="tip-cloud-refresh" role="tooltip"><strong>Keep the map current</strong>The manifest is cached and refreshed on a schedule, or refresh it now when a newer game appears.</span></button>
+                </div>
+                <figcaption>Cloud saves. Sign in with Google, let Ludusavi find the save folder, and keep restorable snapshots locally.</figcaption>
               </figure>
               <figure class="tour-panel" id="tour-panel-deals" role="tabpanel" aria-labelledby="tour-tab-deals" hidden>
                 <div class="tour-shot">
                   <img src="./screenshots/deals.webp" width="1600" height="900" alt="The deals tab: a grid of discounted games with landscape cover art, discount badges, store names, Steam review and Metacritic scores, and prices, above a row of search, store, sort, price and rating filters." loading="lazy" />
                   <button class="hotspot" style="--x:50%;--y:19.4%" aria-describedby="tip-deal-filters" aria-expanded="false"><span class="hotspot-dot">1</span><span class="tip" id="tip-deal-filters" role="tooltip"><strong>Filter the whole sale</strong>Search a title, pick a store, sort by discount, price or rating, cap the price, and require a minimum Steam rating. Clear puts it all back.</span></button>
-                  <button class="hotspot" style="--x:19%;--y:45%" aria-describedby="tip-deal-card" aria-expanded="false"><span class="hotspot-dot">2</span><span class="tip" id="tip-deal-card" role="tooltip"><strong>One card per price</strong>Landscape art, the discount, the store that has that price and the two score pills — the same ratings the library uses. Clicking opens the store page.</span></button>
+                  <button class="hotspot" style="--x:19%;--y:45%" aria-describedby="tip-deal-card" aria-expanded="false"><span class="hotspot-dot">2</span><span class="tip" id="tip-deal-card" role="tooltip"><strong>One card per price</strong>Landscape art, the discount, the store that has that price, and the review and Metacritic score pills. Clicking opens the store page.</span></button>
                   <button class="hotspot tip-left" style="--x:85%;--y:93%" aria-describedby="tip-deal-pages" aria-expanded="false"><span class="hotspot-dot">3</span><span class="tip" id="tip-deal-pages" role="tooltip"><strong>Keep scrolling</strong>The next page loads itself at the bottom of the grid, so the pad never has to find a Load more button.</span></button>
                 </div>
-                <figcaption>Deals tab. Live prices from every store, the deepest discount per title, and the same review and Metacritic scores as the library.</figcaption>
+                <figcaption>Deals tab. Live prices from every store, the deepest discount per title, and review and Metacritic scores on each deal.</figcaption>
               </figure>
               <figure class="tour-panel" id="tour-panel-logs" role="tabpanel" aria-labelledby="tour-tab-logs" hidden>
                 <div class="tour-shot">
@@ -160,7 +219,7 @@
           <div class="section-heading"><div class="eyebrow">Going deeper</div><h2>Why this exists.</h2><p>More on the idea, the Steam gap, and how this compares with Playnite and Steam Big Picture.</p></div>
           <div class="next-pages">
             <a class="next-page" href="why-one-launcher.html"><span>Problem</span><strong>Why this exists</strong><p>A direct alternative to Playnite, and what still needs work.</p></a>
-            <a class="next-page" href="steam-big-picture.html"><span>Steam</span><strong>What Big Picture misses</strong><p>Artwork, cloud saves, updates: what imported games never get.</p></a>
+            <a class="next-page" href="steam-big-picture.html"><span>Steam</span><strong>What Big Picture misses</strong><p>Artwork, updates, and the gaps Steam leaves for imported games.</p></a>
             <a class="next-page" href="alternatives.html"><span>Comparison</span><strong>Playnite and Steam Big Picture</strong><p>A direct comparison, including what this still lacks.</p></a>
           </div>
         </div>
