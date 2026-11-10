@@ -2,8 +2,8 @@
 
 Public marketing site for **Couchfront**, the Windows launcher that brings your PC game library to the couch: it syncs games from Steam, Epic, GOG, Xbox, EA, Ubisoft, Amazon, Battle.net and itch.io into Steam with artwork, so everything browses and launches from the couch with a controller.
 
-- Site: https://kepatotorica.github.io/couchfront/
-- Download (portable .exe): https://kepatotorica.github.io/couchfront/downloads/Couchfront-Portable.exe
+- Site: https://kiyiyip.github.io/couchfront/
+- Download (portable .exe): https://kiyiyip.github.io/couchfront/downloads/Couchfront-Portable.exe
 
 ## What lives here
 
